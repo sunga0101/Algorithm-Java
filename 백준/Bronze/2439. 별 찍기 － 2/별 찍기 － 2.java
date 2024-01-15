@@ -1,22 +1,26 @@
 
 
 import java.io.*;
-import java.util.Scanner;
+import java.util.*;
 
 public class Main {
-    public static void main(String[] args) throws IOException {
-        Scanner sc = new Scanner(System.in);
-        int iLoof = sc.nextInt();
-        for (int j = 1; j <= iLoof; j++) { // j = 몇 층
 
-            for (int i = iLoof-j; i >= 1 ; i--) { // i = 공백 몇 개
-                System.out.print(" ");
+    static BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+    static BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(System.out));
+
+    public static void main(String[] args) throws IOException {
+        int N = Integer.parseInt(br.readLine());
+        for (int i = 0; i < N; i++) {
+            // 공백
+            for (int j = 0; j < N-(i+1); j++) {
+                bw.write(" ");
             }
-            for (int k =0;k< j;k++) { // 층 수 만큼 별 찍기
-                System.out.print("*");
+            for (int k=0;k<i+1;k++){
+                bw.write("*");
             }
-            System.out.print("\n");
+            bw.write("\n");
         }
+        bw.flush();
+        br.close();
     }
 }
-
