@@ -1,25 +1,26 @@
 
 
 import java.io.*;
-import java.util.Scanner;
-
-
+import java.util.*;
 
 public class Main {
+
+    static BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+    static BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(System.out));
+
     public static void main(String[] args) throws IOException {
-        Scanner sc = new Scanner(System.in);
-
-        int N =sc.nextInt();
-        for (int i = 1; i<=N; i++) {
-            for (int j = N-1-i; j >= 0; j--) {
-                System.out.print(" ");
+        int N = Integer.parseInt(br.readLine());
+        for (int i = 0; i < N; i++) {
+            // 공백
+            for (int k=0;k<N-(i+1);k++){
+                bw.write(" ");
             }
-            
-            for ( int k = 0;k<2*i-1 ;k++ ) {
-                System.out.print("*");
+            for (int j = 1; j < 2*(i+1); j++) {
+                bw.write("*");
             }
-            System.out.print("\n");
-            }
+            bw.write("\n");
         }
-
+        bw.flush();
+        br.close();
     }
+}
