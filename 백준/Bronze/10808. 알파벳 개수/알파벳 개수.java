@@ -1,20 +1,25 @@
 
-import java.util.Arrays;
-import java.util.Scanner;
+
+import java.io.*;
+import java.util.*;
 
 public class Main {
-    public static void main(String[] args) {
-        Scanner sc = new Scanner(System.in);
-        int[] alphabet = new int[26];
-        char ascii;
 
-        String word = sc.next();
+    static BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+    static BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(System.out));
 
-        for (int i = 0; i < word.length(); i++) {
-            ascii = word.charAt(i);
-            alphabet[ascii-'a'] += 1;
+    public static void main(String[] args) throws IOException {
+        int[] arr = new int[26];
+        String s = br.readLine();
+
+        for (int i=0;i<s.length();i++){
+            int idx = s.charAt(i)-'a';
+            arr[idx] += 1;
         }
-        
-        Arrays.stream(alphabet).forEach(n -> System.out.print(n + " "));
+
+        for (int i :arr) bw.write(i+" ");
+        bw.flush();
+        br.close();
+
     }
 }
