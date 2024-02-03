@@ -1,76 +1,73 @@
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.util.Arrays;
-import java.util.LinkedList;
-import java.util.Queue;
 
+import java.io.*;
+import java.util.*;
+import java.math.*;
 public class Main {
 
+    static BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+    static BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(System.out));
     static int[][] board;
+    static boolean[][] visited;
+    static int n,m;
+    static int res = Integer.MAX_VALUE;
 
-    public void start() throws IOException {
-        solve();
-    }
-
-    public void solve() throws IOException {
-        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-        String[] in = br.readLine().split(" ");
-        int n = Integer.parseInt(in[0]);
-        int m = Integer.parseInt(in[1]);
-
-        // 데이터 넣기
-        board = new int[n][m];
-        for (int i = 0; i < n; i++) {
-            String[] str = br.readLine().split("");
-            for (int j = 0; j < m; j++) {
-                int num = Integer.parseInt(str[j]);
-                board[i][j] = num;
-            }
-        }
-        int result = count(board, n, m);
-        System.out.println(result);
-
-    }
-
-    public int count(int[][] board, int n, int m) {
-
-        final int[] dx = {-1, 1, 0, 0};
-        final int[] dy = {0, 0, 1, -1};
-        final int NOT_YET = 1; // 갈 수 있는 곳
-
-        Queue<Integer[]> queue = new LinkedList<>();
-        boolean[][] check = new boolean[n][m];
-
-        // 첫번째 위치 경우
-        check[0][0]= true; // 방문
-        queue.offer(new Integer[]{0, 0});
-
-        while (!queue.isEmpty()) {
-            Integer[] visited = queue.poll();
-            int visitX = visited[0];
-            int visitY = visited[1];
-
-            for (int k = 0; k < 4; k++) {
-                int x = visitX + dx[k];
-                int y = visitY + dy[k];
-
-                if (x >= 0 && x < n && y >= 0 && y < m) {
-                    if (board[x][y] == NOT_YET && !check[x][y]) {
-                        queue.offer(new Integer[]{x, y}); // 방문
-                        board[x][y] = board[visitX][visitY] + 1; // 이전 방문한 곳 + 1
-                        check[x][y]= true; // 방문함
-                        //System.out.printf("board[x][y]: %d, x,y:%d,%d\n",board[x][y], x,y);
-                    }
-                }
-            }
-        }
-        return board[n-1][m-1];
-    }
 
     public static void main(String[] args) throws IOException {
-        Main miro = new Main();
-        miro.start();
+        String[] s = br.readLine().split(" ");
+        n = Integer.parseInt(s[0]);
+        m = Integer.parseInt(s[1]);
+        board = new int[n+1][m+1];
+        visited = new boolean[n+1][m+1];
+
+        for (int i=1;i<=n;i++){
+            s = br.readLine().split("");
+            for (int j=1;j<=m;j++){
+                board[i][j] = Integer.parseInt(s[j-1]);
+            }
+        }
+        BFS();
+        bw.write(board[n][m]+"");
+        bw.flush();
+        br.close();
+
+    }
+
+    public static void BFS() throws IOException {
+        int[] dx = {1,0,-1,0};
+        int[] dy = {0,-1,0,1};
+
+        Queue<Node> q = new LinkedList<>();
+        q.offer(new Node(1,1));
+        visited[1][1] = true;
+
+        while(!q.isEmpty()){
+            Node node = q.poll();
+            int x = node.x;
+            int y = node.y;
+            for (int k=0;k<4;k++){
+                int nx = x+dx[k];
+                int ny = y+dy[k];
+                if (nx < 0 || ny < 0 || nx > n || ny > m)
+                    continue;
+                if (visited[nx][ny] || board[nx][ny] == 0)
+                    continue;
+
+                q.offer(new Node(nx,ny));
+                board[nx][ny]=board[x][y]+1;
+                visited[nx][ny] = true;
+
+            }
+        }
+    }
+
+}
+
+class Node{
+    int x;
+    int y;
+    public Node(int x, int y){
+        this.x = x;
+        this.y = y;
     }
 }
