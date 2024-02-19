@@ -2,29 +2,34 @@
 
 import java.io.*;
 import java.util.*;
-
+import java.math.*;
 public class Main {
 
     static BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
     static BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(System.out));
 
+
     public static void main(String[] args) throws IOException {
-        int N = Integer.parseInt(br.readLine());
-        int[] cost = new int[N+1];
-        for (int i=1;i<N+1;i++){
-            cost[i] = Integer.parseInt(br.readLine());
+        int n = Integer.parseInt(br.readLine()); // 계단 수
+        int[] arr = new int[n+1];
+        for (int i=1;i<=n;i++){
+            arr[i] = Integer.parseInt(br.readLine());
         }
-        int[] dp= new int[N+1];
-        dp[1]=cost[1];
-        if (N>1) dp[2] = cost[1]+cost[2];
-        if (N>2) dp[3] = Math.max(cost[1]+cost[3],cost[2]+cost[3]);
+        int[] w = new int[n+1];
+        w[0]=0;
+        w[1]=arr[1];
+        if (n>=2) w[2] = w[1]+arr[2];
+        if (n>=3) w[3] = arr[3]+Math.max(arr[1],arr[2]);
 
-        for(int i=4;i<N+1;i++){
-            dp[i] = Math.max(dp[i-3]+cost[i]+cost[i-1],dp[i-2]+cost[i]);
+        for (int i=4;i<=n;i++){
+            w[i] = arr[i]+Math.max(w[i-2],w[i-3]+arr[i-1]);
         }
 
-        bw.write(dp[N]+"");
+        bw.write(w[n]+"");
         bw.flush();
         br.close();
     }
+
+
 }
+
